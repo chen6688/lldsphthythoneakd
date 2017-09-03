@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django import forms
-from django.db.models import Q
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from errorlog.models.models import errorLog
 from django.views.generic import FormView
-from datetime import datetime
+from django.http import HttpResponse
+from time import time
+import csv
 # Create your views here.
 template_path = "templates/"
 
@@ -25,7 +26,7 @@ class IndexView(FormView):
         if group == None or group.strip() == "" :
             data = errorLog.objects.order_by("-createTime");
         else:
-            data = errorLog.objects.filter(Q(group=group)).order_by("-createTime");
+            data = errorLog.objects.filter(group__icontains=group).order_by("-createTime");
         paginator = Paginator(data, 10)
         try:
             show_lines = paginator.page(page)
@@ -50,12 +51,27 @@ class IndexView(FormView):
                 log.path = "/app/applogs/aa" + istr
                 log.save()
         show_lines = self.get_data(group, page)
-       # return render_to_response(template_path + 'index.html', RequestContext(request, {'lines': show_lines, 'group':group}))
         return render(request,  'index.html', {'lines': show_lines, 'group': group, 'form': SearchForm})
-            #return {'lines': show_lines, 'group': group}
 
     def post(self, request):
 
         group = request.POST.get('group')
         show_lines = self.get_data(group, 1)
         return render(request, 'index.html', {'lines': show_lines, 'group': group, 'form': SearchForm})
+
+def export(request):
+    group = request.GET.get("group")
+    if group == None or group.strip() == "" :
+        data = errorLog.objects.order_by("-createTime");
+    else:
+        data = errorLog.objects.filter(group__icontains=group).order_by("-createTime");
+    # Create the HttpResponse object with the appropriate CSV header.
+    response = HttpResponse(content_type='text/csv')
+    now = int(time())
+    response['Content-Disposition'] = 'attachment; filename="export' + str(now) + '.csv"'
+    writer = csv.writer(response)
+    writer.writerow(['name', 'group', 'path', 'create time'])
+    for log in data:
+        writer.writerow([log.name, log.group, log.path, log.createTime])
+
+    return response

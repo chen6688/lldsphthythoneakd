@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from errorlog.views.views import IndexView
+from errorlog.views import views
 
 urlpatterns = [
     url(r'^$', IndexView.as_view(), name="index"),
+    url(r'^export', views.export, name="export")
 ]

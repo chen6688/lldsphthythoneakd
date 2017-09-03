@@ -8,11 +8,15 @@ Requirements
 ```
     pip install django
 ```
-* django-bootstrap3 Can use bootstrap css for html
+* django-bootstrap3, can use bootstrap css for html
 ```
     pip install django-bootstrap3
 ```
-    
+* MySQL-python, install using following link. After installed, run 'import MySQLdb' in python console.
+```
+    http://www.codegood.com/archives/129
+```
+
 Usage
 ===
 * Create table (eg. errorlog)
