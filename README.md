@@ -28,3 +28,8 @@ Usage
 Project Structure
 ===
 
+Reference
+====
+* Python : http://www.runoob.com/python/python-tutorial.html
+* Django : http://python.usyiyi.cn/translate/django_182/index.html
+* Django-bootstrap3 : http://django-bootstrap3.readthedocs.io/
