@@ -1,7 +1,7 @@
-###Python test project 
+Python test project 
 ==========
 
-###Requirements
+Requirements
 ==========
 * python 2.7
 * django 1.9
@@ -13,7 +13,8 @@
     pip install django-bootstrap3
 ```
     
-###Usage
+Usage
+===
 * Create table (eg. errorlog)
 ```
     python manage.py makemigrations errorlog
@@ -24,5 +25,6 @@
     python manage.py runservre
 ```
 
-### Project Structure
+Project Structure
+===
 
